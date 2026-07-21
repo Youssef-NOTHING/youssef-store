@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shipping &amp; FAQ — Youssef Boukhmiss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page-loader" id="pageLoader">
+  <div>
+    <div class="loader-mark">Youssef Boukhmiss</div>
+    <div class="loader-thread"></div>
+    <span class="loader-tag">Cutting the index…</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-mark">Youssef Boukhmiss</div>
+  <div class="nav-links">
+    <a href="index.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="faq.html" class="active">Shipping &amp; FAQ</a>
+  </div>
+  <button class="cart-btn" onclick="openDrawer()">Bag (<span id="cart-count">0</span>)</button>
+</nav>
+
+<div class="page-header">
+  <span class="page-eyebrow">Before you order</span>
+  <h1 class="page-title">Shipping, returns &amp; sizing.</h1>
+  <p class="page-sub">Everything worth knowing before a piece leaves the atelier.</p>
+</div>
+
+<div class="content">
+  <h2>Shipping &amp; delivery</h2>
+  <div class="faq-item">
+    <div class="faq-q">How long until my order ships?</div>
+    <div class="faq-a">Clothing is made to order — allow 5–10 working days before dispatch. Objects (mugs, totes, stickers, beanies) usually ship within 1–3 working days since they're kept in small ready stock.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Where do you deliver?</div>
+    <div class="faq-a">Nationwide within Morocco in 2–4 working days after dispatch. International orders are handled case by case — get in touch before ordering if you're outside Morocco.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How much does shipping cost?</div>
+    <div class="faq-a">Flat rate within Morocco. Free on orders over 800 MAD. International rates depend on destination and are quoted before checkout.</div>
+  </div>
+
+  <h2>Returns &amp; exchanges</h2>
+  <div class="faq-item">
+    <div class="faq-q">Can I return something?</div>
+    <div class="faq-a">Objects can be returned within 14 days if unused and in original packaging. Made-to-order clothing can be exchanged for a different size within 14 days of delivery, but isn't eligible for refund unless the piece arrives faulty.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Something arrived damaged or wrong. What now?</div>
+    <div class="faq-a">Message us with your order number and a photo within 7 days of delivery and it'll be remade or refunded — no questions asked.</div>
+  </div>
+
+  <h2>Sizing</h2>
+  <div class="faq-item">
+    <div class="faq-q">How do the clothes fit?</div>
+    <div class="faq-a">Cuts run true to size and slightly relaxed rather than fitted. If you're between two sizes, size down for a closer fit or up for a roomier one — each product page notes the fabric weight, which affects drape.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Do you offer custom sizing?</div>
+    <div class="faq-a">Not yet at scale, but for made-to-order pieces, message us before ordering and we'll see what's possible.</div>
+  </div>
+
+  <hr class="divider">
+
+  <h2 id="contact">Contact</h2>
+  <p>For anything not covered above — orders, custom requests, wholesale, or just questions.</p>
+  <div class="contact-box">
+    <div class="contact-row"><span class="label-key">Email</span><span>studio@youssefboukhmiss.com</span></div>
+    <div class="contact-row"><span class="label-key">WhatsApp</span><span>+212 6XX-XXXXXX</span></div>
+    <div class="contact-row"><span class="label-key">Studio</span><span>Morocco — by appointment</span></div>
+    <div class="contact-row"><span class="label-key">Hours</span><span>Mon–Sat, 10:00–18:00</span></div>
+  </div>
+
+  <form class="contact-form" id="contactForm">
+    <div class="form-row">
+      <div>
+        <label for="c-name">Name</label>
+        <input type="text" id="c-name" placeholder="Your name">
+      </div>
+      <div>
+        <label for="c-email">Email</label>
+        <input type="email" id="c-email" placeholder="you@email.com">
+      </div>
+    </div>
+    <div>
+      <label for="c-message">Message</label>
+      <textarea id="c-message" placeholder="Order questions, custom requests, wholesale…"></textarea>
+    </div>
+    <button type="submit" class="contact-submit">Send message</button>
+    <div class="contact-note">This opens your email app with the message pre-filled. To send messages directly from the page without opening email, connect a form backend such as Formspree.</div>
+  </form>
+</div>
+
+<footer class="footer">
+  <div class="footer-mark">Youssef Boukhmiss</div>
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="faq.html">Shipping &amp; returns</a>
+    <a href="faq.html#contact">Contact</a>
+    <a href="login.html">Studio admin</a>
+  </div>
+  <div>Morocco — made to order</div>
+  <div class="footer-note">Reserved by me.</div>
+</footer>
+
+<!-- Studio bot -->
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()">Ask the studio</button>
+<aside class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="chat-title">Studio bot</div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-quick" id="chatQuick"></div>
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Ask about shipping, sizing…" autocomplete="off">
+    <button type="submit">Send</button>
+  </form>
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-title">Order docket</div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="drawer-stamp">IN THE BAG</span>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+  </div>
+  <div class="drawer-items" id="drawer-items"></div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span>Subtotal</span><span id="subtotal">0 MAD</span></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    <div class="drawer-note">Demo checkout — no real payment is taken. Connect a payment provider like Stripe to accept real orders.</div>
+  </div>
+</aside>
+
+<script type="module">
+import { getProducts } from "./js/products.js";
+import { initChat, initPageLoader, makeCartController } from "./js/app.js";
+
+initPageLoader();
+
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('c-name').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const message = document.getElementById('c-message').value.trim();
+  if(!name || !email || !message){
+    alert("Please fill in your name, email and message.");
+    return;
+  }
+  const subject = encodeURIComponent(`Message from ${name} via the site`);
+  const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+  window.location.href = `mailto:studio@youssefboukhmiss.com?subject=${subject}&body=${body}`;
+});
+
+(async function init(){
+  const products = await getProducts();
+  const cartCtl = makeCartController(products);
+  cartCtl.render();
+  initChat();
+})();
+</script>
+</body>
+</html>

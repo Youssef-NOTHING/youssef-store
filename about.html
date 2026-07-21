@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Youssef Boukhmiss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page-loader" id="pageLoader">
+  <div>
+    <div class="loader-mark">Youssef Boukhmiss</div>
+    <div class="loader-thread"></div>
+    <span class="loader-tag">Cutting the index…</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-mark">Youssef Boukhmiss</div>
+  <div class="nav-links">
+    <a href="index.html">Shop</a>
+    <a href="about.html" class="active">About</a>
+    <a href="faq.html">Shipping &amp; FAQ</a>
+  </div>
+  <button class="cart-btn" onclick="openDrawer()">Bag (<span id="cart-count">0</span>)</button>
+</nav>
+
+<div class="page-header">
+  <span class="page-eyebrow">The atelier</span>
+  <h1 class="page-title">One name, one index.</h1>
+  <p class="page-sub">Why there's no "collection," no seasonal drop, and no logo bigger than a stitch.</p>
+</div>
+
+<div class="content">
+  <h2>How this started</h2>
+  <p>This began as a handful of pieces made for people I knew — a jacket for a friend who kept losing buttons on his old one, a set of mugs for a studio that needed better ones. There was never a plan to build a "brand." There was just a habit of making things properly, and people asking where they could get one too.</p>
+  <p>So instead of a store built around seasons, there's an index. Every piece that gets made gets a number. Nothing is discontinued to make room for something new — if it's in the index, it can still be ordered.</p>
+
+  <h2>Why everything is signed</h2>
+  <p>The signature on the homepage isn't a logo — it's the actual mark that goes on every care label, the same way it would go on a letter. If something is wrong with a piece, that signature is a promise it gets fixed, not just a name on a tag.</p>
+
+  <h2>How pieces are made</h2>
+  <p>Clothing is cut in small batches in Morocco, mostly to order, which is why lead times run 5–10 days rather than next-day. Objects — mugs, totes, the smaller things — are produced with a short list of local makers whose work has held up over years, not just one wash.</p>
+
+  <hr class="divider">
+
+  <h2>What "no filler" means</h2>
+  <p>Every piece in the index earns its place. Nothing is added just to fill out a size chart or round out a collection page. If a piece stops being good, it comes out of the index rather than staying up out of habit.</p>
+</div>
+
+<footer class="footer">
+  <div class="footer-mark">Youssef Boukhmiss</div>
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="faq.html">Shipping &amp; returns</a>
+    <a href="faq.html#contact">Contact</a>
+    <a href="login.html">Studio admin</a>
+  </div>
+  <div>Morocco — made to order</div>
+  <div class="footer-note">Reserved by me.</div>
+</footer>
+
+<!-- Studio bot -->
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()">Ask the studio</button>
+<aside class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="chat-title">Studio bot</div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-quick" id="chatQuick"></div>
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Ask about shipping, sizing…" autocomplete="off">
+    <button type="submit">Send</button>
+  </form>
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-title">Order docket</div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="drawer-stamp">IN THE BAG</span>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+  </div>
+  <div class="drawer-items" id="drawer-items"></div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span>Subtotal</span><span id="subtotal">0 MAD</span></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    <div class="drawer-note">Demo checkout — no real payment is taken. Connect a payment provider like Stripe to accept real orders.</div>
+  </div>
+</aside>
+
+<script type="module">
+import { getProducts } from "./js/products.js";
+import { initChat, initPageLoader, makeCartController } from "./js/app.js";
+
+initPageLoader();
+
+(async function init(){
+  const products = await getProducts();
+  const cartCtl = makeCartController(products);
+  cartCtl.render();
+  initChat();
+})();
+</script>
+</body>
+</html>
