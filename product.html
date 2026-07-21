@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Youssef Boukhmiss — Atelier Index</title>
+<meta name="description" id="pageDesc" content="Made-to-order clothing and objects from the Youssef Boukhmiss atelier, Morocco.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page-loader" id="pageLoader">
+  <div>
+    <div class="loader-mark">Youssef Boukhmiss</div>
+    <div class="loader-thread"></div>
+    <span class="loader-tag">Cutting the index…</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-mark">Youssef Boukhmiss</div>
+  <div class="nav-links">
+    <a href="index.html#catalog">Shop</a>
+    <a href="about.html">About</a>
+    <a href="faq.html">Shipping &amp; FAQ</a>
+  </div>
+  <button class="cart-btn" onclick="openDrawer()">Bag (<span id="cart-count">0</span>)</button>
+</nav>
+
+<div class="product-page" id="productPage">
+  <div class="product-crumb" id="productCrumb">Loading…</div>
+  <div id="productBody"></div>
+  <div id="relatedWrap"></div>
+</div>
+
+<footer class="footer">
+  <div class="footer-mark">Youssef Boukhmiss</div>
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="faq.html">Shipping &amp; returns</a>
+    <a href="faq.html#contact">Contact</a>
+    <a href="login.html">Studio admin</a>
+  </div>
+  <div>Morocco — made to order</div>
+  <div class="footer-note">Reserved by me.</div>
+</footer>
+
+<!-- Studio bot -->
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()">Ask the studio</button>
+<aside class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="chat-title">Studio bot</div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-quick" id="chatQuick"></div>
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Ask about shipping, sizing…" autocomplete="off">
+    <button type="submit">Send</button>
+  </form>
+</aside>
+
+<!-- Cart drawer -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-title">Order docket</div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="drawer-stamp">IN THE BAG</span>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+  </div>
+  <div class="drawer-items" id="drawer-items"></div>
+  <div class="drawer-customer">
+    <div class="d-field">
+      <label>Full name</label>
+      <input type="text" id="co-name" placeholder="Your name">
+    </div>
+    <div class="d-field">
+      <label>Phone</label>
+      <input type="tel" id="co-phone" placeholder="06XX-XXXXXX">
+    </div>
+    <div class="d-field">
+      <label>Delivery address</label>
+      <textarea id="co-address" placeholder="Street, city, landmark"></textarea>
+    </div>
+    <div class="d-field">
+      <label>Payment</label>
+      <div class="d-payment">
+        <label class="d-pay-opt selected"><input type="radio" name="pay" checked disabled> Cash on Delivery</label>
+        <label class="d-pay-opt disabled"><input type="radio" name="pay" disabled> Online payment — coming soon</label>
+      </div>
+    </div>
+    <div class="d-field-error" id="co-error"></div>
+  </div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span>Subtotal</span><span id="subtotal">0 MAD</span></div>
+    <button class="checkout-btn" onclick="checkout()">Place order — Cash on Delivery</button>
+    <div class="drawer-note">Pay in cash when your order is delivered. Online payment isn't connected yet.</div>
+  </div>
+</aside>
+
+<script type="module">
+import { getProducts, fmtPrice, productVisualHtml } from "./js/products.js";
+import { initChat, initPageLoader, makeCartController } from "./js/app.js";
+
+initPageLoader();
+
+let products = [];
+let product = null;
+let selectedSize = null;
+let cartCtl = null;
+
+const params = new URLSearchParams(window.location.search);
+const id = Number(params.get('id'));
+
+function renderProduct(){
+  if(!product){
+    document.getElementById('productCrumb').innerHTML = `<a href="index.html#catalog">← Back to the index</a>`;
+    document.getElementById('productBody').innerHTML = `<div class="product-not-found">That piece isn't in the index. <a href="index.html#catalog">Browse everything →</a></div>`;
+    return;
+  }
+
+  document.title = `${product.name} — Youssef Boukhmiss`;
+  document.getElementById('pageTitle').textContent = `${product.name} — Youssef Boukhmiss`;
+  document.getElementById('pageDesc').setAttribute('content', product.desc || `${product.name}, made to order in Morocco.`);
+
+  document.getElementById('productCrumb').innerHTML =
+    `<a href="index.html#catalog">Shop</a> / <a href="index.html#catalog">${product.cat}</a> / No. ${String(product.id).padStart(3,'0')}`;
+
+  const sizesHtml = product.sizes ? `
+    <div class="p-field">
+      <label>Size</label>
+      <div class="p-sizes">
+        ${product.sizes.map(s => `<button class="p-size-btn ${s===selectedSize?'selected':''}" data-size="${s}">${s}</button>`).join("")}
+      </div>
+    </div>` : "";
+
+  document.getElementById('productBody').innerHTML = `
+    <div class="product-main">
+      <div class="p-visual ${product.image ? 'has-photo' : ''}" style="${product.image ? '' : `background:linear-gradient(155deg, ${product.grad[0]}, ${product.grad[1]})`}">
+        ${productVisualHtml(product, "", "")}
+      </div>
+      <div class="p-body">
+        <div class="p-cat">${product.cat} — No. ${String(product.id).padStart(3,'0')}</div>
+        <div class="p-name">${product.name}</div>
+        <div class="p-price mono">${fmtPrice(product.price)}</div>
+        <div class="p-desc">${product.desc || ""}</div>
+        ${sizesHtml}
+        <button class="p-add-big" id="addBtn">Add to bag</button>
+        <div class="p-meta">Made to order in Morocco. Allow 5–10 days before dispatch. Cash on Delivery at checkout.</div>
+      </div>
+    </div>`;
+
+  document.querySelectorAll('.p-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => { selectedSize = btn.dataset.size; renderProduct(); });
+  });
+  document.getElementById('addBtn').addEventListener('click', () => {
+    const key = product.id + "|" + (selectedSize || "");
+    cartCtl.addLine(key, product.id, selectedSize);
+    cartCtl.open();
+  });
+
+  renderRelated();
+}
+
+function renderRelated(){
+  const related = products.filter(p => p.cat === product.cat && p.id !== product.id).slice(0, 4);
+  if(related.length === 0){ document.getElementById('relatedWrap').innerHTML = ""; return; }
+  document.getElementById('relatedWrap').innerHTML = `
+    <h3 class="related-head">You may also like</h3>
+    <div class="grid">
+      ${related.map(p => `
+        <a class="tag" href="product.html?id=${p.id}" style="text-decoration:none;">
+          <svg class="tag-string" viewBox="0 0 46 20"><path d="M5,18 Q23,-6 41,18"/></svg>
+          <div class="tag-hole"></div>
+          <div class="tag-face" style="${p.image ? '' : `background:linear-gradient(155deg, ${p.grad[0]}, ${p.grad[1]})`}">
+            <div class="tag-stamp mono">No. ${String(p.id).padStart(3,'0')}</div>
+            ${productVisualHtml(p, "tag-photo", "tag-icon")}
+          </div>
+          <div class="tag-info">
+            <div class="tag-cat">${p.cat}</div>
+            <div class="tag-name">${p.name}</div>
+            <div class="tag-row"><span class="tag-price mono">${fmtPrice(p.price)}</span></div>
+          </div>
+        </a>`).join("")}
+    </div>`;
+}
+
+(async function init(){
+  products = await getProducts();
+  product = products.find(p => p.id === id) || null;
+  selectedSize = product && product.sizes ? product.sizes[0] : null;
+  cartCtl = makeCartController(products);
+  cartCtl.render();
+  renderProduct();
+  initChat();
+})();
+</script>
+</body>
+</html>

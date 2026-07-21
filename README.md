@@ -40,10 +40,27 @@ The first time `getProducts()` is called and Firestore's `products` collection i
 it automatically seeds the same 15 default products the old site shipped with — so the
 shop isn't empty on day one.
 
+## What's new in this update
+
+- **Cash on Delivery**: checkout now collects the customer's name, phone and delivery
+  address, records the order in Firestore with `paymentMethod: "cod"`, and shows the
+  order in a new **Orders** tab in `dashboard.html` so you can call to confirm and mark
+  it fulfilled once it's delivered and paid.
+- **Dedicated product pages**: every piece now has its own shareable URL —
+  `product.html?id=7` — instead of only opening in a popup. Good for sending a direct
+  link to a customer and for search engines. Related pieces from the same category are
+  shown at the bottom.
+
 ## Still manual / not wired up
 
-- **Payment**: checkout records the order but takes no money — add Stripe (or another
-  provider) when you're ready to accept real payment.
+- **Online payment**: Cash on Delivery is the only live payment method. Add Stripe (or
+  another provider) when you're ready to accept card/online payment as a second option
+  — the payment selector in the cart drawer already has a disabled "Online payment —
+  coming soon" row ready to enable.
 - **Contact form**: still opens the visitor's email app (`mailto:`) rather than sending
   through a backend — connect a form service like Formspree if you want it to submit
   without leaving the page.
+- **Real product photos**: 10 of the 15 default products still use a flat sketch icon
+  instead of a real photo. Open `dashboard.html` → Index → **Edit** on a product → use
+  the **Photo** field to upload a real photo (it goes straight to Firebase Storage and
+  replaces the sketch everywhere the product appears).
