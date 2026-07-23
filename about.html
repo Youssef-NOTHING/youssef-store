@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Youssef Boukhmiss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page-loader" id="pageLoader">
+  <div>
+    <div class="loader-mark">Youssef Boukhmiss</div>
+    <div class="loader-thread"></div>
+    <span class="loader-tag">Cutting the index…</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-mark">Youssef Boukhmiss</div>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" data-i18n="nav_shop">Shop</a>
+    <a href="about.html" class="active" data-i18n="nav_about">About</a>
+    <a href="faq.html" data-i18n="nav_faq">Shipping &amp; FAQ</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn" data-lang="en" onclick="window.setLang('en')">EN</button>
+      <button class="lang-btn" data-lang="fr" onclick="window.setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="ar" onclick="window.setLang('ar')">AR</button>
+    </div>
+    <button class="nav-menu-btn" onclick="toggleNavMenu()" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button class="cart-btn" onclick="openDrawer()"><span data-i18n="cart_bag">Bag</span> (<span id="cart-count">0</span>)</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <span class="page-eyebrow" data-i18n="page_eyebrow_about">The atelier</span>
+  <h1 class="page-title" data-i18n="page_title_about">One name, one index.</h1>
+  <p class="page-sub" data-i18n="page_sub_about">Why there's no "collection," no seasonal drop, and no logo bigger than a stitch.</p>
+</div>
+
+<div class="content">
+  <h2 data-i18n="about_h1">How this started</h2>
+  <p data-i18n="about_p1">This began as a handful of pieces made for people I knew — a jacket for a friend who kept losing buttons on his old one, a set of mugs for a studio that needed better ones. There was never a plan to build a "brand." There was just a habit of making things properly, and people asking where they could get one too.</p>
+  <p data-i18n="about_p2">So instead of a store built around seasons, there's an index. Every piece that gets made gets a number. Nothing is discontinued to make room for something new — if it's in the index, it can still be ordered.</p>
+
+  <h2 data-i18n="about_h2">Why everything is signed</h2>
+  <p data-i18n="about_p3">The signature on the homepage isn't a logo — it's the actual mark that goes on every care label, the same way it would go on a letter. If something is wrong with a piece, that signature is a promise it gets fixed, not just a name on a tag.</p>
+
+  <h2 data-i18n="about_h3">How pieces are made</h2>
+  <p data-i18n="about_p4">Clothing is cut in small batches in Morocco, mostly to order, which is why lead times run 5–10 days rather than next-day. Objects — mugs, totes, the smaller things — are produced with a short list of local makers whose work has held up over years, not just one wash.</p>
+
+  <hr class="divider">
+
+  <h2 data-i18n="about_h4">What "no filler" means</h2>
+  <p data-i18n="about_p5">Every piece in the index earns its place. Nothing is added just to fill out a size chart or round out a collection page. If a piece stops being good, it comes out of the index rather than staying up out of habit.</p>
+</div>
+
+<footer class="footer">
+  <div class="footer-mark">Youssef Boukhmiss</div>
+  <div class="footer-links">
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <a href="faq.html" data-i18n="footer_shipping">Shipping &amp; returns</a>
+    <a href="faq.html#contact" data-i18n="footer_contact">Contact</a>
+    <a href="login.html" data-i18n="footer_admin">Studio admin</a>
+  </div>
+  <div data-i18n="footer_location">Morocco — made to order</div>
+  <div class="footer-note" data-i18n="footer_note">Reserved by me.</div>
+</footer>
+
+<!-- Studio bot -->
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()" data-i18n="chat_toggle">Ask the studio</button>
+<aside class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="chat-title" data-i18n="chat_title">Studio bot</div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-quick" id="chatQuick"></div>
+  <form class="chat-input-row" id="chatForm">
+    <input type="text" id="chatInput" placeholder="Ask about shipping, sizing…" data-i18n-placeholder="chat_input_placeholder" autocomplete="off">
+    <button type="submit" data-i18n="chat_send">Send</button>
+  </form>
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-title" data-i18n="drawer_title">Order docket</div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="drawer-stamp" data-i18n="drawer_stamp">IN THE BAG</span>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+  </div>
+  <div class="drawer-items" id="drawer-items"></div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span data-i18n="subtotal_label">Subtotal</span><span id="subtotal">0 MAD</span></div>
+    <button class="checkout-btn" onclick="checkout()" data-i18n="checkout_button">Checkout</button>
+    <div class="drawer-note" data-i18n="drawer_note">Payment on delivery — pay in cash when your order arrives.</div>
+  </div>
+</aside>
+
+<script type="module">
+import { getProducts } from "./js/products.js";
+import { initChat, initPageLoader, makeCartController } from "./js/app.js";
+import { initI18n } from "./js/i18n.js";
+
+initI18n();
+initPageLoader();
+
+(async function init(){
+  const products = await getProducts();
+  const cartCtl = makeCartController(products);
+  cartCtl.render();
+  initChat();
+})();
+</script>
+</body>
+</html>
